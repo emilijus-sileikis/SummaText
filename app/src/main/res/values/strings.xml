@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">SummaText</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="quick_instruction">
+    This app helps you summarize text quickly and efficiently. To get started:
+
+    1. Enter or paste your text into the input field.
+    2. Select the summarization options you prefer.
+    3. Tap "Summarize" to generate a summary instantly.
+
+    Enjoy summarizing with ease!
+    </string>
+    <string name="welcome_text">Welcome To SummaText!</string>
+    <string name="button_home_1">Scan text</string>
+    <string name="button_home_2">Submit</string>
+</resources>
