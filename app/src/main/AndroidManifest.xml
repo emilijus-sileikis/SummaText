@@ -12,16 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SummaText"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.SummaText">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ScanTextActivity" />
+        <activity android:name=".PasteTypeTextActivity" />
+        <activity android:name=".SummaryResultActivity" />
+
     </application>
 
 </manifest>

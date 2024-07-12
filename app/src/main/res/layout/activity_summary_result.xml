@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".SummaryResultActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,17 +16,25 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="SummaText" />
+        app:title="Summary Result" />
 
     <TextView
-        android:id="@+id/descriptionText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/summaryTextView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/edit_text_border"
         android:fontFamily="@font/roboto_medium"
-        android:text="This plugin summarizes your text. Choose an option below to proceed."
+        android:justificationMode="inter_word"
+        android:lineSpacingExtra="2sp"
+        android:padding="16dp"
+        android:text="Summary will appear here"
+        android:textAlignment="viewStart"
         android:textSize="16sp"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toTopOf="@id/buttonLayout"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -35,30 +43,32 @@
         android:id="@+id/buttonLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/descriptionText"
+        app:layout_constraintTop_toBottomOf="@id/summaryTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.5">
+        app:layout_constraintRight_toRightOf="parent">
 
         <Button
-            android:id="@+id/scanTextButton"
+            android:id="@+id/copyButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:text="Scan Text" />
+            android:text="Copy Summary" />
 
         <Button
-            android:id="@+id/pasteTypeTextButton"
+            android:id="@+id/saveButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:text="Paste/Type Text" />
+            android:text="Save Summary" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
