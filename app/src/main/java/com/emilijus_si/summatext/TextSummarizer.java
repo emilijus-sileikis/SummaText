@@ -11,7 +11,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class TextSummarizer {
-
     private Analyzer analyzer;
 
     public TextSummarizer() {
@@ -27,21 +26,20 @@ public class TextSummarizer {
     }
 
     private List<String> splitIntoSentences(String text) {
-        // Simple sentence splitter based on period followed by space
         return Arrays.asList(text.split("\\.\\s*"));
     }
 
     private Map<String, Integer> computeWordFrequencies(String text) throws IOException {
         Map<String, Integer> wordFrequencies = new HashMap<>();
-        TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(text));
-        CharTermAttribute charTermAttr = tokenStream.addAttribute(CharTermAttribute.class);
-        tokenStream.reset();
-        while (tokenStream.incrementToken()) {
-            String term = charTermAttr.toString().toLowerCase();
-            wordFrequencies.put(term, wordFrequencies.getOrDefault(term, 0) + 1);
+        try (TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(text))) {
+            CharTermAttribute charTermAttr = tokenStream.addAttribute(CharTermAttribute.class);
+            tokenStream.reset();
+            while (tokenStream.incrementToken()) {
+                String term = charTermAttr.toString().toLowerCase();
+                wordFrequencies.put(term, wordFrequencies.getOrDefault(term, 0) + 1);
+            }
+            tokenStream.end();
         }
-        tokenStream.end();
-        tokenStream.close();
         return wordFrequencies;
     }
 
@@ -49,37 +47,37 @@ public class TextSummarizer {
         Map<String, Integer> sentenceScores = new HashMap<>();
         for (String sentence : sentences) {
             int score = 0;
-            TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(sentence));
-            CharTermAttribute charTermAttr = tokenStream.addAttribute(CharTermAttribute.class);
-            tokenStream.reset();
-            while (tokenStream.incrementToken()) {
-                String term = charTermAttr.toString().toLowerCase();
-                score += wordFrequencies.getOrDefault(term, 0);
+            try (TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(sentence))) {
+                CharTermAttribute charTermAttr = tokenStream.addAttribute(CharTermAttribute.class);
+                tokenStream.reset();
+                while (tokenStream.incrementToken()) {
+                    String term = charTermAttr.toString().toLowerCase();
+                    score += wordFrequencies.getOrDefault(term, 0);
+                }
+                tokenStream.end();
             }
-            tokenStream.end();
-            tokenStream.close();
-            sentenceScores.put(sentence, score);
+            sentenceScores.put(sentence, score + calculatePositionScore(sentences, sentence));
         }
         return sentenceScores;
+    }
+
+    private int calculatePositionScore(List<String> sentences, String sentence) {
+        int index = sentences.indexOf(sentence);
+        int totalSentences = sentences.size();
+        if (index == 0 || index == totalSentences - 1) {
+            return 5;
+        }
+        if (index <= totalSentences * 0.2 || index >= totalSentences * 0.8) {
+            return 3;
+        }
+        return 1;
     }
 
     private String getTopSentences(List<String> sentences, Map<String, Integer> sentenceScores, int summarySize) {
         return sentences.stream()
                 .sorted((s1, s2) -> sentenceScores.get(s2).compareTo(sentenceScores.get(s1)))
+                .distinct()
                 .limit(summarySize)
-                .collect(Collectors.joining(". "));
-    }
-
-    public static void main(String[] args) {
-        try {
-            TextSummarizer summarizer = new TextSummarizer();
-            String text = "The development of artificial intelligence (AI) has significantly impacted various sectors, including healthcare, finance, and transportation. AI technologies, such as machine learning and natural language processing, are being used to automate tasks, analyze large datasets, and make predictions. In healthcare, AI is improving diagnostics accuracy, personalized treatment plans, and drug discovery processes. Financial institutions utilize AI for fraud detection, algorithmic trading, and customer service automation. Autonomous vehicles are a result of AI advancements in the transportation sector, promising safer and more efficient travel. Overall, AI continues to transform industries worldwide, driving innovation and efficiency.";
-
-            String summary = summarizer.summarizeText(text, 3); // Summarize to 3 sentences
-            System.out.println("Summary: ");
-            System.out.println(summary);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                .collect(Collectors.joining(". ")) + ".";
     }
 }
