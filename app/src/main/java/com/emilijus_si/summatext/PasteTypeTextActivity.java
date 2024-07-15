@@ -36,9 +36,7 @@ public class PasteTypeTextActivity extends AppCompatActivity {
                 String userInput = inputField.getText().toString().trim();
                 try {
                     String summary = summarizeText(userInput);
-                    Log.d(TAG, "Summary: " + summary);
 
-                    // Navigate to SummaryResultActivity with the summary text
                     Intent intent = new Intent(PasteTypeTextActivity.this, SummaryResultActivity.class);
                     intent.putExtra("SUMMARY_TEXT", summary);
                     startActivity(intent);
@@ -55,7 +53,7 @@ public class PasteTypeTextActivity extends AppCompatActivity {
             return "Input text is empty.";
         }
         TextSummarizer summarizer = new TextSummarizer();
-        return summarizer.summarizeText(userInput, 3); // Summarize to 3 sentences, change later
+        return summarizer.summarizeText(userInput, 3);
     }
 
     @Override
@@ -67,7 +65,6 @@ public class PasteTypeTextActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         return super.onOptionsItemSelected(item);
     }
 }

@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         return super.onOptionsItemSelected(item);
     }
 }

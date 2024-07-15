@@ -24,14 +24,12 @@ public class ScanTextActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Assume that you have the scanned text
         String scannedText = "Your scanned text goes here";
 
         try {
             String summary = summarizeText(scannedText);
             Log.d(TAG, "Summary: " + summary);
 
-            // Navigate to SummaryResultActivity with the summary text
             Intent intent = new Intent(ScanTextActivity.this, SummaryResultActivity.class);
             intent.putExtra("SUMMARY_TEXT", summary);
             startActivity(intent);
@@ -46,7 +44,7 @@ public class ScanTextActivity extends AppCompatActivity {
             return "Input text is empty.";
         }
         TextSummarizer summarizer = new TextSummarizer();
-        return summarizer.summarizeText(userInput, 3); // Summarize to 3 sentences, change later
+        return summarizer.summarizeText(userInput, 3);
     }
 
     @Override
@@ -58,7 +56,6 @@ public class ScanTextActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         return super.onOptionsItemSelected(item);
     }
 }

@@ -27,7 +27,6 @@ public class SummaryResultActivity extends AppCompatActivity {
 
         summaryTextView = findViewById(R.id.summaryTextView);
 
-        // Get the summary text from the intent
         String summary = getIntent().getStringExtra("SUMMARY_TEXT");
         summaryTextView.setText(summary);
 
@@ -36,7 +35,7 @@ public class SummaryResultActivity extends AppCompatActivity {
 
         copyButton.setOnClickListener(v -> copySummaryToClipboard());
         saveButton.setOnClickListener(v -> {
-            // Implement save functionality
+            //TODO: Implement save functionality
             Toast.makeText(this, "Save summary feature not implemented yet", Toast.LENGTH_SHORT).show();
         });
     }
@@ -44,7 +43,7 @@ public class SummaryResultActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu); // Inflate your menu here
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 

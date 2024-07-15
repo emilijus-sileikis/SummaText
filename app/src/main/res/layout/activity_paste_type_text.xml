@@ -29,7 +29,7 @@
         android:background="@drawable/edit_text_border"
         android:fontFamily="@font/roboto_medium"
         android:gravity="top"
-        android:hint="Enter text to be summarised"
+        android:hint="@string/type_text_placeholder"
         android:inputType="textMultiLine"
         android:justificationMode="inter_word"
         android:padding="8dp"
@@ -47,7 +47,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:fontFamily="@font/roboto_medium"
-        android:text="Submit"
+        android:text="@string/type_text_submt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

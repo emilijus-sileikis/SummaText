@@ -19,4 +19,12 @@
     <string name="welcome_text">Welcome To SummaText!</string>
     <string name="button_home_1">Scan text</string>
     <string name="button_home_2">Submit</string>
+    <string name="short_descr">This app helps you to summarize the text you provide by either scanning it via camera or pasting it from your clipboard. Choose an option below to proceed.</string>
+    <string name="button_main_1">Scan Text</string>
+    <string name="button_main_2">Write Text</string>
+    <string name="type_text_placeholder">Enter text to be summarised</string>
+    <string name="type_text_submt">Submit</string>
+    <string name="res_plc">Summary will appear here</string>
+    <string name="res_copy">Copy Summary</string>
+    <string name="res_save">Save Summary</string>
 </resources>
