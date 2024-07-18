@@ -28,10 +28,11 @@ android {
         python {
             pip {
                 install("torch==1.8.1")
-                install("torchvision==0.9.1")
+                //install("torchvision==0.9.1")
                 install("transformers==4.15.0")
-                install("tokenizers==0.10.3")
-                install("gensim")
+                //install("tokenizers==0.10.3")
+                //install("sentencepiece==0.1.95")
+                //install("gensim")
             }
         }
     }

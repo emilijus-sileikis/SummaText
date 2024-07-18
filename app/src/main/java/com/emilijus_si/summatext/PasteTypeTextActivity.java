@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,21 +41,53 @@ public class PasteTypeTextActivity extends AppCompatActivity {
                     return;
                 }
 
+                // Show overlay with progress indicator and text
+                FrameLayout progressOverlay = findViewById(R.id.progressOverlay);
+                progressOverlay.setVisibility(View.VISIBLE);
 
-                try {
-                    Python py = Python.getInstance();
-                    PyObject pyObject = py.getModule("extractive_summarizer");
-                    String summary = pyObject.callAttr("summarize_text", userInput).toString();
+                // Execute summarization in background thread
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Python py = Python.getInstance();
+                            PyObject pyObject = py.getModule("abstractive_summarizer");
 
-                    Intent intent = new Intent(PasteTypeTextActivity.this, SummaryResultActivity.class);
-                    intent.putExtra("SUMMARY_TEXT", summary);
-                    startActivity(intent);
-                } catch (PyException e) {
-                    Log.e(TAG, "Error summarizing text", e);
-                    Toast.makeText(PasteTypeTextActivity.this, "Error summarizing text", Toast.LENGTH_SHORT).show();
-                } catch (NumberFormatException e) {
-                    Toast.makeText(PasteTypeTextActivity.this, "Invalid number of sentences", Toast.LENGTH_SHORT).show();
-                }
+                            // Perform the summarization
+                            String summary = pyObject.callAttr("summarize_text", userInput).toString();
+
+                            // Hide overlay and launch SummaryResultActivity
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressOverlay.setVisibility(View.GONE);
+                                    Intent intent = new Intent(PasteTypeTextActivity.this, SummaryResultActivity.class);
+                                    intent.putExtra("SUMMARY_TEXT", summary);
+                                    startActivity(intent);
+                                }
+                            });
+                        } catch (PyException e) {
+                            Log.e(TAG, "Error summarizing text", e);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Hide overlay on error
+                                    progressOverlay.setVisibility(View.GONE);
+                                    Toast.makeText(PasteTypeTextActivity.this, "Error summarizing text", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (NumberFormatException e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Hide overlay on error
+                                    progressOverlay.setVisibility(View.GONE);
+                                    Toast.makeText(PasteTypeTextActivity.this, "Invalid number of sentences", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                }).start();
             }
         });
     }
