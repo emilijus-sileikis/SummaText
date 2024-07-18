@@ -43,8 +43,11 @@ public class ScanTextActivity extends AppCompatActivity {
         if (userInput == null || userInput.isEmpty()) {
             return "Input text is empty.";
         }
-        TextSummarizer summarizer = new TextSummarizer();
-        return summarizer.summarizeText(userInput, 3);
+        //TextSummarizer summarizer = new TextSummarizer(this);
+        //String summary = summarizer.summarize(userInput);
+        //summarizer.close();  // Make sure to close the summarizer to free resources
+        //return summary;
+        return "";
     }
 
     @Override

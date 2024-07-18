@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "735345403780",
+    "project_id": "summatext",
+    "storage_bucket": "summatext.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735345403780:android:bb1dcdc8ba834baca55fd1",
+        "android_client_info": {
+          "package_name": "com.emilijus_si.summatext"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCa-OvgJ-rOzEkrgOixranPBolHCH24SlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

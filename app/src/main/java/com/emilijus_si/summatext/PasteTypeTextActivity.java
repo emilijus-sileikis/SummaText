@@ -9,23 +9,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import java.io.IOException;
+import com.chaquo.python.PyException;
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
 
 public class PasteTypeTextActivity extends AppCompatActivity {
 
     private static final String TAG = "PasteTypeTextActivity";
+    private EditText numberOfSentencesField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paste_type_text);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         EditText inputField = findViewById(R.id.inputField);
         Button submitButton = findViewById(R.id.submitButton);
@@ -34,26 +34,29 @@ public class PasteTypeTextActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String userInput = inputField.getText().toString().trim();
+
+                if (userInput.isEmpty()) {
+                    Toast.makeText(PasteTypeTextActivity.this, "Please enter text to summarize", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 try {
-                    String summary = summarizeText(userInput);
+                    Python py = Python.getInstance();
+                    PyObject pyObject = py.getModule("extractive_summarizer");
+                    String summary = pyObject.callAttr("summarize_text", userInput).toString();
 
                     Intent intent = new Intent(PasteTypeTextActivity.this, SummaryResultActivity.class);
                     intent.putExtra("SUMMARY_TEXT", summary);
                     startActivity(intent);
-
-                } catch (IOException e) {
+                } catch (PyException e) {
                     Log.e(TAG, "Error summarizing text", e);
+                    Toast.makeText(PasteTypeTextActivity.this, "Error summarizing text", Toast.LENGTH_SHORT).show();
+                } catch (NumberFormatException e) {
+                    Toast.makeText(PasteTypeTextActivity.this, "Invalid number of sentences", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-    }
-
-    private String summarizeText(String userInput) throws IOException {
-        if (userInput == null || userInput.isEmpty()) {
-            return "Input text is empty.";
-        }
-        TextSummarizer summarizer = new TextSummarizer();
-        return summarizer.summarizeText(userInput, 3);
     }
 
     @Override
